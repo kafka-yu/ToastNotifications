@@ -3,7 +3,7 @@ using MS.WindowsAPICodePack.Internal;
 using System;
 using System.Diagnostics;
 using System.IO;
-using ToastNotifications.Win8.ShellHelpers;
+using ToastNotifications.Win10.ShellHelpers;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 

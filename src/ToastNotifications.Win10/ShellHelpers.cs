@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using MS.WindowsAPICodePack.Internal;
 
-namespace ToastNotifications.Win8.ShellHelpers
+namespace ToastNotifications.Win10.ShellHelpers
 {
     internal enum STGM : long
     {

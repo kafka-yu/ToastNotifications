@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2026
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToastNotifications.Win7", "ToastNotifications.Win7\ToastNotifications.Win7.csproj", "{380D8D88-386C-4C50-9A54-800F79FDF7D2}"
 EndProject
@@ -10,6 +10,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Controls", "0. Controls", "{B4E147FD-7E38-4CBE-8836-94006344D136}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToastNotifications.Win8", "ToastNotifications.Win8\ToastNotifications.Win8.csproj", "{7DA4148B-E5D7-492D-A61F-BD8173B9BBEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToastNotifications.Share", "ToastNotifications.Share\ToastNotifications.Share.csproj", "{03519B9F-6CAA-4409-BB6D-313A6EF95527}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToastNotifications.TestingForm", "ToastNotifications.TestingForm\ToastNotifications.TestingForm.csproj", "{E4DB8103-7513-4EE7-8D58-09C700A404A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,14 +39,22 @@ Global
 		{7DA4148B-E5D7-492D-A61F-BD8173B9BBEC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7DA4148B-E5D7-492D-A61F-BD8173B9BBEC}.Release|x86.ActiveCfg = Release|Any CPU
 		{7DA4148B-E5D7-492D-A61F-BD8173B9BBEC}.Release|x86.Build.0 = Release|Any CPU
-		{C6AA2A3A-2877-41F0-B609-F89A6DAE0A59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6AA2A3A-2877-41F0-B609-F89A6DAE0A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6AA2A3A-2877-41F0-B609-F89A6DAE0A59}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C6AA2A3A-2877-41F0-B609-F89A6DAE0A59}.Debug|x86.Build.0 = Debug|Any CPU
-		{C6AA2A3A-2877-41F0-B609-F89A6DAE0A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6AA2A3A-2877-41F0-B609-F89A6DAE0A59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6AA2A3A-2877-41F0-B609-F89A6DAE0A59}.Release|x86.ActiveCfg = Release|Any CPU
-		{C6AA2A3A-2877-41F0-B609-F89A6DAE0A59}.Release|x86.Build.0 = Release|Any CPU
+		{03519B9F-6CAA-4409-BB6D-313A6EF95527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03519B9F-6CAA-4409-BB6D-313A6EF95527}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03519B9F-6CAA-4409-BB6D-313A6EF95527}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{03519B9F-6CAA-4409-BB6D-313A6EF95527}.Debug|x86.Build.0 = Debug|Any CPU
+		{03519B9F-6CAA-4409-BB6D-313A6EF95527}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03519B9F-6CAA-4409-BB6D-313A6EF95527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03519B9F-6CAA-4409-BB6D-313A6EF95527}.Release|x86.ActiveCfg = Release|Any CPU
+		{03519B9F-6CAA-4409-BB6D-313A6EF95527}.Release|x86.Build.0 = Release|Any CPU
+		{E4DB8103-7513-4EE7-8D58-09C700A404A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4DB8103-7513-4EE7-8D58-09C700A404A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4DB8103-7513-4EE7-8D58-09C700A404A4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E4DB8103-7513-4EE7-8D58-09C700A404A4}.Debug|x86.Build.0 = Debug|Any CPU
+		{E4DB8103-7513-4EE7-8D58-09C700A404A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4DB8103-7513-4EE7-8D58-09C700A404A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4DB8103-7513-4EE7-8D58-09C700A404A4}.Release|x86.ActiveCfg = Release|Any CPU
+		{E4DB8103-7513-4EE7-8D58-09C700A404A4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,7 +62,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{380D8D88-386C-4C50-9A54-800F79FDF7D2} = {B4E147FD-7E38-4CBE-8836-94006344D136}
 		{7DA4148B-E5D7-492D-A61F-BD8173B9BBEC} = {B4E147FD-7E38-4CBE-8836-94006344D136}
-		{C6AA2A3A-2877-41F0-B609-F89A6DAE0A59} = {B4E147FD-7E38-4CBE-8836-94006344D136}
+		{03519B9F-6CAA-4409-BB6D-313A6EF95527} = {B4E147FD-7E38-4CBE-8836-94006344D136}
+		{E4DB8103-7513-4EE7-8D58-09C700A404A4} = {462D7284-99DF-45AE-8E77-88F486F6F5BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {269C81C6-1266-4C9C-BCA1-9570E6A6A97D}

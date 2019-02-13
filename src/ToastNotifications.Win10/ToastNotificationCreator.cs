@@ -1,10 +1,8 @@
 ﻿using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using MS.WindowsAPICodePack.Internal;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using ToastNotifications.Share;
 using ToastNotifications.Win8.ShellHelpers;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
@@ -14,27 +12,32 @@ namespace ToastNotifications.Win8
     /// <summary>
     /// 
     /// </summary>
-    public class ToastNotificationRepresenter : IToastNotificationRepresenter
+    public class ToastNotificationCreator
     {
-        private readonly string _appId;
-
-        private Dictionary<string, ToastNotification> _notifications = new Dictionary<string, ToastNotification>();
-
-        public ToastNotificationRepresenter(string appId, string appName, string defaultIconFilePath)
-        {
-            Setup(appId, appName, defaultIconFilePath);
-            _appId = appId;
-        }
+        private const String APP_ID = "Microsoft.Samples.DesktopToastsSample";
 
         #region Init
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="appId"></param>
-        /// <param name="shortcutPath"></param>
-        /// <param name="pszIconPath"></param>
-        private void InstallShortcut(string appId, string shortcutPath, string pszIconPath)
+        // In order to display toasts, a desktop application must have a shortcut on the Start menu.
+        // Also, an AppUserModelID must be set on that shortcut.
+        // The shortcut should be created as part of the installer. The following code shows how to create
+        // a shortcut and assign an AppUserModelID using Windows APIs. You must download and include the 
+        // Windows API Code Pack for Microsoft .NET Framework for this code to function
+        //
+        // Included in this project is a wxs file that be used with the WiX toolkit
+        // to make an installer that creates the necessary shortcut. One or the other should be used.
+        private static bool TryCreateShortcut(string pszIconPath)
+        {
+            String shortcutPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Microsoft\\Windows\\Start Menu\\Programs\\RingCentral for Outlook.lnk";
+            if (!File.Exists(shortcutPath))
+            {
+                InstallShortcut(shortcutPath, pszIconPath);
+                return true;
+            }
+            return false;
+        }
+
+        private static void InstallShortcut(String shortcutPath, string pszIconPath)
         {
             // Find the path to the current executable
             String exePath = Process.GetCurrentProcess().MainModule.FileName;
@@ -48,9 +51,9 @@ namespace ToastNotifications.Win8
             // Open the shortcut property store, set the AppUserModelId property
             IPropertyStore newShortcutProperties = (IPropertyStore)newShortcut;
 
-            using (PropVariant appIdPv = new PropVariant(appId))
+            using (PropVariant appId = new PropVariant(APP_ID))
             {
-                ShellHelpers.ErrorHelper.VerifySucceeded(newShortcutProperties.SetValue(SystemProperties.System.AppUserModel.ID, appIdPv));
+                ShellHelpers.ErrorHelper.VerifySucceeded(newShortcutProperties.SetValue(SystemProperties.System.AppUserModel.ID, appId));
                 ShellHelpers.ErrorHelper.VerifySucceeded(newShortcutProperties.Commit());
             }
 
@@ -60,32 +63,18 @@ namespace ToastNotifications.Win8
             ShellHelpers.ErrorHelper.VerifySucceeded(newShortcutSave.Save(shortcutPath, true));
         }
 
-        // In order to display toasts, a desktop application must have a shortcut on the Start menu.
-        // Also, an AppUserModelID must be set on that shortcut.
-        // The shortcut should be created as part of the installer. The following code shows how to create
-        // a shortcut and assign an AppUserModelID using Windows APIs. You must download and include the 
-        // Windows API Code Pack for Microsoft .NET Framework for this code to function
-        //
-        // Included in this project is a wxs file that be used with the WiX toolkit
-        // to make an installer that creates the necessary shortcut. One or the other should be used.
-        public bool Setup(string appId, string appName, string defaultIconFilePath)
-        {
-            string shortcutPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + $"\\Microsoft\\Windows\\Start Menu\\Programs\\{appName}.lnk";
-            if (!File.Exists(shortcutPath))
-            {
-                InstallShortcut(appId, shortcutPath, defaultIconFilePath);
-                return true;
-            }
-            return false;
-        }
-
         #endregion
+
+        public static void Setup(string appId, string appName, string iconPath)
+        {
+            TryCreateShortcut(iconPath);
+        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="notification"></param>
-        public void ShowTwoLines(TwoLinesToastNotificationInfo notification)
+        public static void ShowTwoLines(TwoLinesToastNotificationInfo notification)
         {
             // Get a toast XML template
             XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText02);
@@ -115,7 +104,7 @@ namespace ToastNotifications.Win8
         /// 
         /// </summary>
         /// <param name="notification"></param>
-        public void ShowRichInterableNotification(TwoLinesToastNotificationInfo notification)
+        public static void ShowRichInterableNotification(TwoLinesToastNotificationInfo notification)
         {
             var toastContent = new XmlDocument();
 
@@ -162,17 +151,7 @@ namespace ToastNotifications.Win8
             var toastNotif = new ToastNotification(toastContent);
 
             // And send the notification
-            ToastNotificationManager.CreateToastNotifier(notification.AppId).Show(toastNotif);
-        }
-
-        public void Dismiss(string tag)
-        {
-            if (_notifications.ContainsKey(tag))
-            {
-                ToastNotificationManager.CreateToastNotifier(_appId).Hide(_notifications[tag]);
-
-                _notifications.Remove(tag);
-            }
+            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
         }
     }
 }

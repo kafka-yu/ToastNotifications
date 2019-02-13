@@ -67,15 +67,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShellHelpers.cs" />
     <Compile Include="ToastNotificationCreator.cs" />
+    <Compile Include="ToastNotificationInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ToastNotifications.Share\ToastNotifications.Share.csproj">
-      <Project>{03519B9F-6CAA-4409-BB6D-313A6EF95527}</Project>
-      <Name>ToastNotifications.Share</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

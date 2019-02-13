@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7DA4148B-E5D7-492D-A61F-BD8173B9BBEC}</ProjectGuid>
+    <ProjectGuid>{8DA4148B-E5D7-492D-A61F-BD8173B9BBEC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ToastNotifications.Win8</RootNamespace>
-    <AssemblyName>ToastNotifications.Win8</AssemblyName>
+    <RootNamespace>ToastNotifications.Win10</RootNamespace>
+    <AssemblyName>ToastNotifications.Win10</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <TargetPlatformVersion>10.10240</TargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,10 +67,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShellHelpers.cs" />
     <Compile Include="ToastNotificationCreator.cs" />
-    <Compile Include="ToastNotificationInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ToastNotifications.Share\ToastNotifications.Share.csproj">
+      <Project>{03519b9f-6caa-4409-bb6d-313a6ef95527}</Project>
+      <Name>ToastNotifications.Share</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

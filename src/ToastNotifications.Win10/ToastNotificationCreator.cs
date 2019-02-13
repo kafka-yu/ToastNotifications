@@ -7,7 +7,7 @@ using ToastNotifications.Win8.ShellHelpers;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 
-namespace ToastNotifications.Win8
+namespace ToastNotifications.Win10
 {
     /// <summary>
     /// 

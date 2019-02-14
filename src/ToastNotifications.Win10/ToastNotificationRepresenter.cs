@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using ToastNotifications.Share;
+using ToastNotifications.Share.ActionButtons;
 #if WIN8
 using ToastNotifications.Win8.ShellHelpers;
 #endif
@@ -121,44 +123,25 @@ namespace ToastNotifications.Win10
         /// 
         /// </summary>
         /// <param name="notification"></param>
-        public void ShowRichInterableNotification(TwoLinesToastNotificationInfo notification)
+        public void ShowIncomingCallNotification(IncomingCallNotificationInfo notification)
         {
             var toastContent = new XmlDocument();
 
-            toastContent.LoadXml($@"<toast launch=""action=answer&amp;callId=938163"" scenario=""incomingCall"">
+            toastContent.LoadXml($@"<toast launch=""action={notification.DefaultAction ?? string.Empty}"" scenario=""incomingCall"">
 
   <visual>
     <binding template=""ToastGeneric"">
       <text>{notification.FirstLineText}</text>
       <text>{notification.SecondLineText}</text>
-      <image hint-crop=""circle"" src=""https://unsplash.it/100?image=883""/>
+    {
+    (!string.IsNullOrWhiteSpace(notification.AvatarUrl) ? @"<image hint-crop=""circle"" src=""" + notification.AvatarUrl + "\"/>" : "")
+}
     </binding>
   </visual>
 
   <actions>
 
-    <action
-      content=""Text reply""
-      imageUri=""file:///C:/Projects/RukaiYu/ToastNotifications/src/ToastNotifications.TestingForm/bin/Debug/message.png""
-      activationType=""foreground""
-      arguments=""action=textReply&amp;callId=938163""/>
-
-    <action
-      content=""Reminder""
-      imageUri=""file:///C:/Projects/RukaiYu/ToastNotifications/src/ToastNotifications.TestingForm/bin/Debug/reminder.png""
-      activationType=""background""
-      arguments=""action=reminder&amp;callId=938163""/>
-
-    <action
-      content=""Ignore""
-      imageUri=""file:///C:/Projects/RukaiYu/ToastNotifications/src/ToastNotifications.TestingForm/bin/Debug/cancel.png""
-      activationType=""background""
-      arguments=""action=ignore&amp;callId=938163""/>
-
-    <action
-      content=""Answer""
-      imageUri=""file:///C:/Projects/RukaiYu/ToastNotifications/src/ToastNotifications.TestingForm/bin/Debug/telephone.png""
-      arguments=""action=answer&amp;callId=938163""/>
+    {appendActionButtons(notification)}
 
   </actions>
 
@@ -211,6 +194,30 @@ namespace ToastNotifications.Win10
                 default:
                     return Share.ToastDismissalReason.Other;
             }
+        }
+
+        private string appendActionButtons(IncomingCallNotificationInfo notification)
+        {
+            if (notification.ActionButtons != null)
+            {
+                var buttonsBuilder = new StringBuilder();
+                foreach (var button in notification.ActionButtons)
+                {
+                    var buttonXml = $@"
+<action
+   content=""{button.Content}""
+   imageUri=""{button.IconUrl}""
+   activationType=""{button.ActivationType.ToStringOne()}""
+   arguments=""{button.Arguements}""/>";
+                    buttonsBuilder.AppendLine(buttonXml);
+                }
+
+                return buttonsBuilder
+                    .AppendLine()
+                    .ToString();
+            }
+
+            return string.Empty;
         }
 
         public void Dismiss(string tag)

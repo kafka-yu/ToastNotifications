@@ -12,7 +12,7 @@
         /// 
         /// </summary>
         /// <param name="notification"></param>
-        void ShowRichInterableNotification(TwoLinesToastNotificationInfo notification);
+        void ShowIncomingCallNotification(IncomingCallNotificationInfo notification);
 
         /// <summary>
         /// 

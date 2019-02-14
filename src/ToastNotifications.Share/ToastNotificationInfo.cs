@@ -1,4 +1,5 @@
 ﻿using System;
+using ToastNotifications.Share.ActionButtons;
 
 namespace ToastNotifications.Share
 {
@@ -28,7 +29,17 @@ namespace ToastNotifications.Share
         public string AppName { get; set; }
 
         /// <summary>
-        /// Only supported in Win7
+        /// 
+        /// </summary>
+        public string DefaultAction { get; set; }
+
+        /// <summary>
+        /// 5 * 1000, Only supported in customized notification representer
+        /// </summary>
+        public int Duration { get; set; } = 5 * 1000;
+
+        /// <summary>
+        /// Only supported in customized notification representer
         /// </summary>
         public string BackgroundColor { get; set; }
 
@@ -49,5 +60,10 @@ namespace ToastNotifications.Share
         /// Apps that are running subscribe to this event.
         /// </summary>
         public EventHandler<ToastFailedEventArgs> Failed;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ActionButton[] ActionButtons { get; set; }
     }
 }

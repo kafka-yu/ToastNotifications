@@ -28,7 +28,7 @@ namespace ToastNotifications.Win7
             }
         }
 
-        public void ShowRichInterableNotification(TwoLinesToastNotificationInfo notification)
+        public void ShowIncomingCallNotification(IncomingCallNotificationInfo notification)
         {
             throw new NotImplementedException("Not Supported In Win7");
         }

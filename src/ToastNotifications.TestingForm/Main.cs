@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,10 +75,26 @@ namespace ToastNotifications.TestingForm
                     break;
             }
 
-            toastNotificationRepresenter.ShowRichInterableNotification(new Share.TwoLinesToastNotificationInfo
+            toastNotificationRepresenter.ShowIncomingCallNotification(new Share.IncomingCallNotificationInfo
             {
+                DefaultAction = "action=answer&amp;callId=938163",
                 BackgroundColor = "#464646",
                 Tag = Guid.NewGuid().ToString(),
+                ActionButtons = new Share.ActionButtons.ActionButton[] {
+                     new Share.ActionButtons.ActionButton{
+                          Content = "To voicemail",
+                           IconUrl = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"reminder.png"),
+                           Arguements = "action=tovoicemail",
+                     },
+                     new Share.ActionButtons.ActionButton{
+                          Content = "Ignore",
+                           IconUrl = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"cancel.png"),
+                           Arguements = "sessionid=1234",
+                     },
+                     new Share.ActionButtons.ActionButton{
+                          Content = "Answer",
+                           IconUrl = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "telephone.png"), },
+                },
                 Activated = (o, e1) =>
                 {
                     MessageBox.Show("Clicked, args: " + e1.Arguements ?? "N/A");

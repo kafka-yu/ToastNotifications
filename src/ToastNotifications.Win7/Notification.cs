@@ -199,13 +199,22 @@ namespace ToastNotifications.Win7
                 switch (response)
                 {
                     case NotificationResponse.Dismissed:
-                        notification.Dismissed?.Invoke(sender, new EventArgs());
+                        notification.Dismissed?.Invoke(sender, new Share.ToastDismissedEventArgs
+                        {
+                            Reason = Share.ToastDismissalReason.UserCanceled,
+                        });
                         break;
                     case NotificationResponse.Expired:
-                        notification.Dismissed?.Invoke(sender, new EventArgs());
+                        notification.Dismissed?.Invoke(sender, new Share.ToastDismissedEventArgs
+                        {
+                            Reason = Share.ToastDismissalReason.TimedOut,
+                        });
                         break;
                     case NotificationResponse.Actived:
-                        notification.Activated?.Invoke(sender, new EventArgs());
+                        notification.Activated?.Invoke(sender, new Share.ToastActivatedEventArgs
+                        {
+                            Tag = notification.Tag,
+                        });
                         break;
                     default:
                         break;

@@ -36,18 +36,18 @@ namespace ToastNotifications.Share
         /// Occurs when user activates a toast notification through a click or touch. Apps
         ///     that are running subscribe to this event.
         /// </summary>
-        public EventHandler Activated;
+        public EventHandler<ToastActivatedEventArgs> Activated;
 
         /// <summary>  
         ///     Occurs when a toast notification leaves the screen, either by expiring or being
         ///    explicitly dismissed by the user. Apps that are running subscribe to this event.
         /// </summary>
-        public EventHandler Dismissed;
+        public EventHandler<ToastDismissedEventArgs> Dismissed;
 
         /// <summary>
         /// Occurs when an error is caused when Windows attempts to raise a toast notification.
         /// Apps that are running subscribe to this event.
         /// </summary>
-        public EventHandler Failed;
+        public EventHandler<ToastFailedEventArgs> Failed;
     }
 }

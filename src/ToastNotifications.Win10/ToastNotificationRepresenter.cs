@@ -5,11 +5,23 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using ToastNotifications.Share;
+#if WIN8
 using ToastNotifications.Win8.ShellHelpers;
+#endif
+#if WIN10
+using ToastNotifications.Win10.ShellHelpers;
+#endif
+
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 
+#if WIN8
 namespace ToastNotifications.Win8
+#endif
+#if WIN10
+namespace ToastNotifications.Win10
+#endif
+
 {
     /// <summary>
     /// 
@@ -94,7 +106,7 @@ namespace ToastNotifications.Win8
             XmlNodeList stringElements = toastXml.GetElementsByTagName("text");
 
             stringElements[0].AppendChild(toastXml.CreateTextNode(notification.FirstLineText));
-            stringElements[1].AppendChild(toastXml.CreateTextNode(notification.SecondLineText));
+            stringElements[1].AppendChild(toastXml.CreateTextNode(notification.SecondLineText ?? string.Empty));
 
             // Specify the absolute path to an image
             String imagePath = "file:///" + Path.GetFullPath(notification.IconImagePath);
@@ -102,13 +114,7 @@ namespace ToastNotifications.Win8
             imageElements[0].Attributes.GetNamedItem("src").NodeValue = imagePath;
 
             // Create the toast and attach event listeners
-            ToastNotification toast = new ToastNotification(toastXml);
-            toast.Activated += (s, e) => notification.Activated?.Invoke(s, new EventArgs());
-            toast.Dismissed += (s, e) => notification.Dismissed?.Invoke(s, new EventArgs());
-            toast.Failed += (s, e) => notification.Failed?.Invoke(s, new EventArgs());
-
-            // Show the toast. Be sure to specify the AppUserModelId on your application's shortcut!
-            ToastNotificationManager.CreateToastNotifier(notification.AppId).Show(toast);
+            Display(notification, toastXml);
         }
 
         /// <summary>
@@ -124,7 +130,7 @@ namespace ToastNotifications.Win8
   <visual>
     <binding template=""ToastGeneric"">
       <text>{notification.FirstLineText}</text>
-      <text>Incoming Call - {notification.SecondLineText}</text>
+      <text>{notification.SecondLineText}</text>
       <image hint-crop=""circle"" src=""https://unsplash.it/100?image=883""/>
     </binding>
   </visual>
@@ -133,25 +139,25 @@ namespace ToastNotifications.Win8
 
     <action
       content=""Text reply""
-      imageUri=""Assets/Icons/message.png""
+      imageUri=""file:///C:/Projects/RukaiYu/ToastNotifications/src/ToastNotifications.TestingForm/bin/Debug/message.png""
       activationType=""foreground""
       arguments=""action=textReply&amp;callId=938163""/>
 
     <action
       content=""Reminder""
-      imageUri=""Assets/Icons/reminder.png""
+      imageUri=""file:///C:/Projects/RukaiYu/ToastNotifications/src/ToastNotifications.TestingForm/bin/Debug/reminder.png""
       activationType=""background""
       arguments=""action=reminder&amp;callId=938163""/>
 
     <action
       content=""Ignore""
-      imageUri=""Assets/Icons/cancel.png""
+      imageUri=""file:///C:/Projects/RukaiYu/ToastNotifications/src/ToastNotifications.TestingForm/bin/Debug/cancel.png""
       activationType=""background""
       arguments=""action=ignore&amp;callId=938163""/>
 
     <action
       content=""Answer""
-      imageUri=""Assets/Icons/telephone.png""
+      imageUri=""file:///C:/Projects/RukaiYu/ToastNotifications/src/ToastNotifications.TestingForm/bin/Debug/telephone.png""
       arguments=""action=answer&amp;callId=938163""/>
 
   </actions>
@@ -159,15 +165,57 @@ namespace ToastNotifications.Win8
 </toast>");
 
             // Create the toast notification
+            Display(notification, toastContent);
+        }
+
+        private void Display(ToastNotificationInfo notification, XmlDocument toastContent)
+        {
             var toastNotif = new ToastNotification(toastContent);
+
+#if WIN10
+            toastNotif.Tag = notification.Tag;
+#endif
+
+            toastNotif.Activated += (o, e) => notification.Activated?.Invoke(o, new Share.ToastActivatedEventArgs
+            {
+                Arguements = (e as Windows.UI.Notifications.ToastActivatedEventArgs)?.Arguments,
+                Tag = notification.Tag,
+            });
+
+            toastNotif.Dismissed += (o, e) => notification.Dismissed?.Invoke(o, new Share.ToastDismissedEventArgs
+            {
+                Reason = ConvertReason(e.Reason),
+            });
+
+            toastNotif.Failed += (o, e) => notification.Failed?.Invoke(this, new Share.ToastFailedEventArgs() { ErrorCode = e.ErrorCode });
+
+            if (!string.IsNullOrWhiteSpace(notification.Tag))
+            {
+                _notifications[notification.Tag] = toastNotif;
+            }
 
             // And send the notification
             ToastNotificationManager.CreateToastNotifier(notification.AppId).Show(toastNotif);
         }
 
+        private Share.ToastDismissalReason ConvertReason(Windows.UI.Notifications.ToastDismissalReason reason)
+        {
+            switch (reason)
+            {
+                case Windows.UI.Notifications.ToastDismissalReason.UserCanceled:
+                    return Share.ToastDismissalReason.UserCanceled;
+                case Windows.UI.Notifications.ToastDismissalReason.ApplicationHidden:
+                    return Share.ToastDismissalReason.ApplicationHidden;
+                case Windows.UI.Notifications.ToastDismissalReason.TimedOut:
+                    return Share.ToastDismissalReason.TimedOut;
+                default:
+                    return Share.ToastDismissalReason.Other;
+            }
+        }
+
         public void Dismiss(string tag)
         {
-            if (_notifications.ContainsKey(tag))
+            if (tag != null && _notifications.ContainsKey(tag))
             {
                 ToastNotificationManager.CreateToastNotifier(_appId).Hide(_notifications[tag]);
 

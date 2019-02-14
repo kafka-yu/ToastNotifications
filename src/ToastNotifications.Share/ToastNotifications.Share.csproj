@@ -42,6 +42,10 @@
   <ItemGroup>
     <Compile Include="IToastNotificationRepresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToastActivatedEventArgs.cs" />
+    <Compile Include="ToastDismissalReason.cs" />
+    <Compile Include="ToastDismissedEventArgs.cs" />
+    <Compile Include="ToastFailedEventArgs.cs" />
     <Compile Include="ToastNotificationInfo.cs" />
     <Compile Include="TwoLinesToastNotificationInfo.cs" />
   </ItemGroup>

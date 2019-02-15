@@ -38,6 +38,8 @@ namespace ToastNotifications.Share
         /// </summary>
         public int Duration { get; set; } = 5 * 1000;
 
+        public string AttributeText { get; set; }
+
         /// <summary>
         /// Only supported in customized notification representer
         /// </summary>
@@ -65,5 +67,10 @@ namespace ToastNotifications.Share
         /// 
         /// </summary>
         public ActionButton[] ActionButtons { get; set; }
+
+        /// <summary>
+        /// Seconds to display
+        /// </summary>
+        public int? Timeout { get; set; }
     }
 }

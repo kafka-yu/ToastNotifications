@@ -43,6 +43,7 @@
     <Compile Include="ActionButtons\ActionButton.cs" />
     <Compile Include="ActionButtons\ActivationType.cs" />
     <Compile Include="IncomingCallNotificationInfo.cs" />
+    <Compile Include="ToastNotificationRepresenterBase.cs" />
     <Compile Include="IToastNotificationRepresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToastActivatedEventArgs.cs" />

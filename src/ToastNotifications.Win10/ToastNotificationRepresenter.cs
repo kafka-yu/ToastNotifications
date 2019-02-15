@@ -28,16 +28,23 @@ namespace ToastNotifications.Win10
     /// <summary>
     /// 
     /// </summary>
-    public class ToastNotificationRepresenter : IToastNotificationRepresenter
+    public class ToastNotificationRepresenter : ToastNotificationRepresenterBase
     {
         private readonly string _appId;
-
+        private readonly ToastNotifier _toastNotifier;
         private Dictionary<string, ToastNotification> _notifications = new Dictionary<string, ToastNotification>();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override IEnumerable<string> NotificationKeys => _notifications.Keys;
 
         public ToastNotificationRepresenter(string appId, string appName, string defaultIconFilePath)
         {
             Setup(appId, appName, defaultIconFilePath);
             _appId = appId;
+
+            _toastNotifier = ToastNotificationManager.CreateToastNotifier(_appId);
         }
 
         #region Init
@@ -82,7 +89,7 @@ namespace ToastNotifications.Win10
         //
         // Included in this project is a wxs file that be used with the WiX toolkit
         // to make an installer that creates the necessary shortcut. One or the other should be used.
-        public bool Setup(string appId, string appName, string defaultIconFilePath)
+        private bool Setup(string appId, string appName, string defaultIconFilePath)
         {
             string shortcutPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + $"\\Microsoft\\Windows\\Start Menu\\Programs\\{appName}.lnk";
             if (!File.Exists(shortcutPath))
@@ -99,7 +106,7 @@ namespace ToastNotifications.Win10
         /// 
         /// </summary>
         /// <param name="notification"></param>
-        public void ShowTwoLines(TwoLinesToastNotificationInfo notification)
+        public override void ShowTwoLines(TwoLinesToastNotificationInfo notification)
         {
             // Get a toast XML template
             XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText02);
@@ -123,7 +130,7 @@ namespace ToastNotifications.Win10
         /// 
         /// </summary>
         /// <param name="notification"></param>
-        public void ShowIncomingCallNotification(IncomingCallNotificationInfo notification)
+        public override void ShowIncomingCallNotification(IncomingCallNotificationInfo notification)
         {
             var toastContent = new XmlDocument();
 
@@ -136,6 +143,9 @@ namespace ToastNotifications.Win10
     {
     (!string.IsNullOrWhiteSpace(notification.AvatarUrl) ? @"<image hint-crop=""circle"" src=""" + notification.AvatarUrl + "\"/>" : "")
 }
+{appendLogoOverwrite(notification)}
+{appendAttribute(notification)}
+
     </binding>
   </visual>
 
@@ -151,13 +161,33 @@ namespace ToastNotifications.Win10
             Display(notification, toastContent);
         }
 
+        private string appendAttribute(IncomingCallNotificationInfo notification)
+        {
+            if (notification != null && !string.IsNullOrWhiteSpace(notification.IconImagePath))
+            {
+                return $@"<image placement=""appLogoOverride""  hint-crop=""default"" src=""file://{notification.IconImagePath}""/>";
+            }
+
+            return string.Empty;
+        }
+
+        private string appendLogoOverwrite(IncomingCallNotificationInfo notification)
+        {
+            if (notification != null && !string.IsNullOrWhiteSpace(notification.AttributeText))
+            {
+                return $"<text placement=\"attribution\">{notification.AttributeText}</text>";
+            }
+
+            return string.Empty;
+        }
+
         private void Display(ToastNotificationInfo notification, XmlDocument toastContent)
         {
             var toastNotif = new ToastNotification(toastContent);
-
-#if WIN10
-            toastNotif.Tag = notification.Tag;
-#endif
+            if (notification.Timeout.HasValue && notification.Timeout > 0)
+            {
+                toastNotif.ExpirationTime = DateTimeOffset.UtcNow.AddSeconds(notification.Timeout.Value);
+            }
 
             toastNotif.Activated += (o, e) => notification.Activated?.Invoke(o, new Share.ToastActivatedEventArgs
             {
@@ -178,7 +208,7 @@ namespace ToastNotifications.Win10
             }
 
             // And send the notification
-            ToastNotificationManager.CreateToastNotifier(notification.AppId).Show(toastNotif);
+            _toastNotifier.Show(toastNotif);
         }
 
         private Share.ToastDismissalReason ConvertReason(Windows.UI.Notifications.ToastDismissalReason reason)
@@ -220,13 +250,25 @@ namespace ToastNotifications.Win10
             return string.Empty;
         }
 
-        public void Dismiss(string tag)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tag"></param>
+        public override void Dismiss(string tag)
         {
             if (tag != null && _notifications.ContainsKey(tag))
             {
-                ToastNotificationManager.CreateToastNotifier(_appId).Hide(_notifications[tag]);
-
-                _notifications.Remove(tag);
+                try
+                {
+                    _toastNotifier.Hide(_notifications[tag]);
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    _notifications.Remove(tag);
+                }
             }
         }
     }

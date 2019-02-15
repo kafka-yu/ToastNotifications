@@ -4,36 +4,54 @@ using ToastNotifications.Share;
 
 namespace ToastNotifications.Win7
 {
-    public class ToastNotificationRepresenter : IToastNotificationRepresenter
+    /// <summary>
+    /// An implementation of <see cref="IToastNotificationRepresenter"/>, to provide a customized win8-style notification.
+    /// </summary>
+    public class ToastNotificationRepresenter : ToastNotificationRepresenterBase
     {
         private readonly string _appName;
 
         private Dictionary<string, Notification> _notifications = new Dictionary<string, Notification>();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override IEnumerable<string> NotificationKeys => _notifications.Keys;
 
         public ToastNotificationRepresenter(string appName)
         {
             _appName = appName;
         }
 
-        public void Dismiss(string tag)
+        public override void Dismiss(string tag)
         {
             Notification ntf = null;
             if (_notifications.TryGetValue(tag, out ntf))
             {
-                if (!ntf.IsDisposed && !ntf.Disposing)
+                try
                 {
-                    ntf.Close();
+                    if (!ntf.IsDisposed && !ntf.Disposing)
+                    {
+                        ntf.Close();
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
                     _notifications.Remove(tag);
                 }
             }
         }
 
-        public void ShowIncomingCallNotification(IncomingCallNotificationInfo notification)
+        public override void ShowIncomingCallNotification(IncomingCallNotificationInfo notification)
         {
             throw new NotImplementedException("Not Supported In Win7");
         }
 
-        public void ShowTwoLines(TwoLinesToastNotificationInfo notification)
+        public override void ShowTwoLines(TwoLinesToastNotificationInfo notification)
         {
             Notification ntf = new Notification(
                        new NotificationInfo()

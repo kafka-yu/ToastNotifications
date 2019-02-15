@@ -1,7 +1,14 @@
-﻿namespace ToastNotifications.Share
+﻿using System.Collections.Generic;
+
+namespace ToastNotifications.Share
 {
     public interface IToastNotificationRepresenter
     {
+        /// <summary>
+        /// Gets current all keys.
+        /// </summary>
+        IEnumerable<string> NotificationKeys { get; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -19,5 +26,10 @@
         /// </summary>
         /// <param name="tag"></param>
         void Dismiss(string tag);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        void DismissAll();
     }
 }

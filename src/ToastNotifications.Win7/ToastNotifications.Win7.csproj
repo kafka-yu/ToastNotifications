@@ -46,8 +46,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>..\..\libs\</OutputPath>
-    <DocumentationFile>..\..\libs\ToastNotifications.Win7.XML</DocumentationFile>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>bin\Release\ToastNotifications.Win7.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

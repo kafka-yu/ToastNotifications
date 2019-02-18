@@ -97,8 +97,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="cancel.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="answer.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ignore.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="message.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -108,6 +111,9 @@
     </Content>
     <Content Include="telephone.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="voicemail.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

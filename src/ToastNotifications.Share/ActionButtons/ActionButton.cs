@@ -18,12 +18,12 @@
             set { _IconUrl = value; }
         }
 
-        private string _Arguements;
+        private string _Arguments;
 
-        public string Arguements
+        public string Arguments
         {
-            get { return _Arguements ?? string.Empty; }
-            set { _Arguements = value; }
+            get { return _Arguments ?? string.Empty; }
+            set { _Arguments = value; }
         }
 
         public ActivationType ActivationType { get; set; }

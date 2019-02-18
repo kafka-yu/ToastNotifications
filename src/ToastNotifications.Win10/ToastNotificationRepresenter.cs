@@ -191,7 +191,7 @@ namespace ToastNotifications.Win10
 
             toastNotif.Activated += (o, e) => notification.Activated?.Invoke(o, new Share.ToastActivatedEventArgs
             {
-                Arguements = (e as Windows.UI.Notifications.ToastActivatedEventArgs)?.Arguments,
+                Arguments = (e as Windows.UI.Notifications.ToastActivatedEventArgs)?.Arguments,
                 Tag = notification.Tag,
             });
 
@@ -238,7 +238,7 @@ namespace ToastNotifications.Win10
    content=""{button.Content}""
    imageUri=""{button.IconUrl}""
    activationType=""{button.ActivationType.ToStringOne()}""
-   arguments=""{button.Arguements}""/>";
+   arguments=""{button.Arguments}""/>";
                     buttonsBuilder.AppendLine(buttonXml);
                 }
 

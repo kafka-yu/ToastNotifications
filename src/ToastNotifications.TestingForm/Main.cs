@@ -81,17 +81,18 @@ namespace ToastNotifications.TestingForm
                 ActionButtons = new Share.ActionButtons.ActionButton[] {
                      new Share.ActionButtons.ActionButton{
                           Content = "To voicemail",
-                           IconUrl = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"reminder.png"),
-                           Arguements = "action=tovoicemail",
+                           IconUrl = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"voicemail.png"),
+                           Arguments = "action=tovoicemail",
                      },
                      new Share.ActionButtons.ActionButton{
                           Content = "Ignore",
-                           IconUrl = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"cancel.png"),
-                           Arguements = "sessionid=1234",
+                           IconUrl = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"ignore.png"),
+                           Arguments = "sessionid=1234",
                      },
                      new Share.ActionButtons.ActionButton{
                           Content = "Answer",
-                           IconUrl = @"C:\Program Files (x86)\RingCentralForOutlook\icons\telephone.png", },
+                           IconUrl = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"answer.png"),
+                     }
                 },
                 Activated = (o, e1) =>
                 {

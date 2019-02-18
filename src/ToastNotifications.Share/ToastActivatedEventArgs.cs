@@ -5,7 +5,7 @@ namespace ToastNotifications.Share
     {
         public string Tag { get; set; }
 
-        public string Arguements { get; set; }
+        public string Arguments { get; set; }
 
         public string Group { get; set; }
     }

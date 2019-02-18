@@ -106,7 +106,7 @@ namespace ToastNotifications.TestingForm
                 AppName = appName,
                 AppId = appId,
                 IconImagePath = appIco,
-                SecondLineText = "Incoming Call - SomethingNew1\r\n101",
+                SecondLineText = "Incoming Call - Alice Zhang\r\n101",
             });
 
             await Task.Run(async () =>

@@ -134,7 +134,7 @@ namespace ToastNotifications.Win10
         {
             var toastContent = new XmlDocument();
 
-            toastContent.LoadXml($@"<toast launch=""action={notification.DefaultAction ?? string.Empty}"" scenario=""incomingCall"">
+            toastContent.LoadXml($@"<toast launch=""{notification.DefaultAction ?? string.Empty}"" scenario=""incomingCall"">
 
   <visual>
     <binding template=""ToastGeneric"">

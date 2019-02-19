@@ -214,6 +214,7 @@ namespace ToastNotifications.Win7
                         notification.Activated?.Invoke(sender, new Share.ToastActivatedEventArgs
                         {
                             Tag = notification.Tag,
+                            Arguments = notification.DefaultAction,
                         });
                         break;
                     default:

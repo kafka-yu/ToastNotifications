@@ -60,6 +60,7 @@ namespace ToastNotifications.Win7
                            Body = notification.SecondLineText,
                            AppName = _appName,
                            Duration = notification.Duration,
+                           DefaultAction = notification.DefaultAction,
                            Animation = FormAnimator.AnimationMethod.Fade,
                            Direction = FormAnimator.AnimationDirection.Left,
                            BackgroundColor = notification.BackgroundColor,

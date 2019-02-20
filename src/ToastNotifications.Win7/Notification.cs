@@ -173,7 +173,6 @@ namespace ToastNotifications.Win7
             Close();
         }
 
-
         private void Notification_Click(object sender, EventArgs e)
         {
             NotifyNotificationClosed(NotificationResponse.Actived);
@@ -182,11 +181,13 @@ namespace ToastNotifications.Win7
 
         private void labelTitle_Click(object sender, EventArgs e)
         {
+            NotifyNotificationClosed(NotificationResponse.Actived);
             Close();
         }
 
         private void labelRO_Click(object sender, EventArgs e)
         {
+            NotifyNotificationClosed(NotificationResponse.Actived);
             Close();
         }
 

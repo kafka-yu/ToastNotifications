@@ -94,10 +94,12 @@ namespace ToastNotifications.Win10
             string shortcutPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + $"\\Microsoft\\Windows\\Start Menu\\Programs\\{appName}.lnk";
             if (!File.Exists(shortcutPath))
             {
-                InstallShortcut(appId, shortcutPath, defaultIconFilePath);
-                return true;
+                // remove
+                File.Delete(shortcutPath);
             }
-            return false;
+
+            InstallShortcut(appId, shortcutPath, defaultIconFilePath);
+            return true;
         }
 
         #endregion

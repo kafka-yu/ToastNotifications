@@ -11,5 +11,10 @@
         /// Second line text
         /// </summary>
         public string SecondLineText { get; set; }
+
+        /// <summary>
+        /// /
+        /// </summary>
+        public bool ShowLeftSideImage { get; set; }
     }
 }

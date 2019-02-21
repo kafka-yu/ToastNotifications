@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using ToastNotifications.Share;
 using ToastNotifications.Share.ActionButtons;
@@ -111,7 +112,12 @@ namespace ToastNotifications.Win10
         public override void ShowTwoLines(TwoLinesToastNotificationInfo notification)
         {
             // Get a toast XML template
-            XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText02);
+            XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(notification.ShowLeftSideImage ?
+                ToastTemplateType.ToastImageAndText03 : ToastTemplateType.ToastText03);
+
+            var toastElement = toastXml.FirstChild as XmlElement;
+
+            toastElement.SetAttribute("launch", notification.DefaultAction);
 
             // Fill in the text elements
             XmlNodeList stringElements = toastXml.GetElementsByTagName("text");
@@ -119,11 +125,13 @@ namespace ToastNotifications.Win10
             stringElements[0].AppendChild(toastXml.CreateTextNode(notification.FirstLineText));
             stringElements[1].AppendChild(toastXml.CreateTextNode(notification.SecondLineText ?? string.Empty));
 
-            // Specify the absolute path to an image
-            String imagePath = "file:///" + Path.GetFullPath(notification.IconImagePath);
-            XmlNodeList imageElements = toastXml.GetElementsByTagName("image");
-            imageElements[0].Attributes.GetNamedItem("src").NodeValue = imagePath;
-
+            if (notification.ShowLeftSideImage)
+            {
+                // Specify the absolute path to an image
+                String imagePath = "file:///" + Path.GetFullPath(notification.IconImagePath);
+                XmlNodeList imageElements = toastXml.GetElementsByTagName("image");
+                imageElements[0].Attributes.GetNamedItem("src").NodeValue = imagePath;
+            }
             // Create the toast and attach event listeners
             Display(notification, toastXml);
         }

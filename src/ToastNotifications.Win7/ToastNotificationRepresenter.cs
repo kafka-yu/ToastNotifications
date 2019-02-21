@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using ToastNotifications.Share;
 
 namespace ToastNotifications.Win7
@@ -65,6 +67,7 @@ namespace ToastNotifications.Win7
                            Direction = FormAnimator.AnimationDirection.Left,
                            BackgroundColor = notification.BackgroundColor,
                            Activated = notification.Activated,
+                           Icon = GetIconImage(notification.IconImagePath),
                            Dismissed = notification.Dismissed,
                        }
                    );
@@ -77,6 +80,16 @@ namespace ToastNotifications.Win7
             };
 
             ntf.Show();
+        }
+
+        private Image GetIconImage(string iconImagePath)
+        {
+            if (!string.IsNullOrWhiteSpace(iconImagePath) && File.Exists(iconImagePath))
+            {
+                return Image.FromFile(iconImagePath);
+            }
+
+            return null;
         }
     }
 }

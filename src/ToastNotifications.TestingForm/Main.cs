@@ -47,13 +47,14 @@ namespace ToastNotifications.TestingForm
             {
                 BackgroundColor = "#464646",
                 Tag = Guid.NewGuid().ToString(),
+                ShowLeftSideImage = true,
                 DefaultAction = "openOutlookApp",
                 Activated = (o, e1) =>
                 {
                     MessageBox.Show(e1.Arguments);
                 },
                 FirstLineText = "Incoming Call: SomethingNew1\r\n101",
-                SecondLineText = string.Empty,
+                SecondLineText = appName,
                 AppId = appId,
                 AppName = appName,
                 IconImagePath = appIco,

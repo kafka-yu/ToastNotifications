@@ -54,7 +54,7 @@ namespace ToastNotifications.TestingForm
                     MessageBox.Show(e1.Arguments);
                 },
                 FirstLineText = "Incoming Call: SomethingNew1\r\n101",
-                SecondLineText = appName,
+                SecondLineText = string.Empty,
                 AppId = appId,
                 AppName = appName,
                 IconImagePath = appIco,

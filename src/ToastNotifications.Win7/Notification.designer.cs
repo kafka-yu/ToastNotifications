@@ -46,12 +46,13 @@ namespace ToastNotifications.Win7
             // 
             // labelTitle
             // 
+            this.labelTitle.AutoSize = true;
             this.labelTitle.BackColor = System.Drawing.Color.Transparent;
             this.labelTitle.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTitle.ForeColor = System.Drawing.Color.White;
-            this.labelTitle.Location = new System.Drawing.Point(78, 22);
+            this.labelTitle.Location = new System.Drawing.Point(78, 20);
             this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Size = new System.Drawing.Size(245, 21);
+            this.labelTitle.Size = new System.Drawing.Size(116, 21);
             this.labelTitle.TabIndex = 0;
             this.labelTitle.Text = "title goes here";
             this.labelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -90,7 +91,7 @@ namespace ToastNotifications.Win7
             this.labelAppName.BackColor = System.Drawing.Color.Transparent;
             this.labelAppName.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelAppName.ForeColor = System.Drawing.Color.LightGray;
-            this.labelAppName.Location = new System.Drawing.Point(79, 65);
+            this.labelAppName.Location = new System.Drawing.Point(79, 72);
             this.labelAppName.Name = "labelAppName";
             this.labelAppName.Size = new System.Drawing.Size(130, 17);
             this.labelAppName.TabIndex = 0;

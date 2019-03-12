@@ -36,8 +36,10 @@ namespace ToastNotifications.Win7
             this.closeButtonBox = new System.Windows.Forms.PictureBox();
             this.labelAppName = new System.Windows.Forms.Label();
             this.labelBody = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.appIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.closeButtonBox)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lifeTimer
@@ -50,7 +52,8 @@ namespace ToastNotifications.Win7
             this.labelTitle.BackColor = System.Drawing.Color.Transparent;
             this.labelTitle.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTitle.ForeColor = System.Drawing.Color.White;
-            this.labelTitle.Location = new System.Drawing.Point(78, 20);
+            this.labelTitle.Location = new System.Drawing.Point(3, 0);
+            this.labelTitle.MaximumSize = new System.Drawing.Size(255, 0);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(116, 21);
             this.labelTitle.TabIndex = 0;
@@ -91,7 +94,7 @@ namespace ToastNotifications.Win7
             this.labelAppName.BackColor = System.Drawing.Color.Transparent;
             this.labelAppName.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelAppName.ForeColor = System.Drawing.Color.LightGray;
-            this.labelAppName.Location = new System.Drawing.Point(79, 72);
+            this.labelAppName.Location = new System.Drawing.Point(83, 83);
             this.labelAppName.Name = "labelAppName";
             this.labelAppName.Size = new System.Drawing.Size(130, 17);
             this.labelAppName.TabIndex = 0;
@@ -106,7 +109,8 @@ namespace ToastNotifications.Win7
             this.labelBody.BackColor = System.Drawing.Color.Transparent;
             this.labelBody.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelBody.ForeColor = System.Drawing.Color.White;
-            this.labelBody.Location = new System.Drawing.Point(78, 45);
+            this.labelBody.Location = new System.Drawing.Point(3, 21);
+            this.labelBody.MaximumSize = new System.Drawing.Size(255, 0);
             this.labelBody.Name = "labelBody";
             this.labelBody.Size = new System.Drawing.Size(115, 20);
             this.labelBody.TabIndex = 0;
@@ -114,19 +118,28 @@ namespace ToastNotifications.Win7
             this.labelBody.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelBody.Click += new System.EventHandler(this.labelTitle_Click);
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.labelTitle);
+            this.flowLayoutPanel1.Controls.Add(this.labelBody);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(79, 20);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(256, 60);
+            this.flowLayoutPanel1.TabIndex = 3;
+            // 
             // Notification
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(380, 110);
+            this.ClientSize = new System.Drawing.Size(380, 115);
             this.ControlBox = false;
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.closeButtonBox);
-            this.Controls.Add(this.appIcon);
-            this.Controls.Add(this.labelBody);
-            this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.labelAppName);
+            this.Controls.Add(this.appIcon);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -142,6 +155,8 @@ namespace ToastNotifications.Win7
             this.Click += new System.EventHandler(this.Notification_Click);
             ((System.ComponentModel.ISupportInitialize)(this.appIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.closeButtonBox)).EndInit();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,5 +170,6 @@ namespace ToastNotifications.Win7
         private System.Windows.Forms.PictureBox closeButtonBox;
         private System.Windows.Forms.Label labelAppName;
         private System.Windows.Forms.Label labelBody;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

@@ -93,7 +93,7 @@ namespace ToastNotifications.Win10
         private bool Setup(string appId, string appName, string defaultIconFilePath)
         {
             string shortcutPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + $"\\Microsoft\\Windows\\Start Menu\\Programs\\{appName}.lnk";
-            if (!File.Exists(shortcutPath))
+            if (File.Exists(shortcutPath))
             {
                 // remove
                 File.Delete(shortcutPath);
@@ -191,26 +191,44 @@ namespace ToastNotifications.Win10
             return string.Empty;
         }
 
+        /// <summary>Displays the specified notification.</summary>
+        /// <param name="notification">The notification.</param>
+        /// <param name="toastContent">Content of the toast.</param>
         private void Display(ToastNotificationInfo notification, XmlDocument toastContent)
         {
             var toastNotif = new ToastNotification(toastContent);
+
+#if WIN10
+    toastNotif.Tag = notification.Tag;
+#endif
+
             if (notification.Timeout.HasValue && notification.Timeout > 0)
             {
                 toastNotif.ExpirationTime = DateTimeOffset.UtcNow.AddSeconds(notification.Timeout.Value);
             }
 
-            toastNotif.Activated += (o, e) => notification.Activated?.Invoke(o, new Share.ToastActivatedEventArgs
+            toastNotif.Activated += (o, e) =>
             {
-                Arguments = (e as Windows.UI.Notifications.ToastActivatedEventArgs)?.Arguments,
-                Tag = notification.Tag,
-            });
+                try
+                {
+                    notification.Activated?.Invoke(o, new Share.ToastActivatedEventArgs
+                    {
+                        Arguments = (e as Windows.UI.Notifications.ToastActivatedEventArgs)?.Arguments,
+                        Tag = notification.Tag,
+                    });
+                }
+                catch
+                {
+
+                }
+            };
 
             toastNotif.Dismissed += (o, e) => notification.Dismissed?.Invoke(o, new Share.ToastDismissedEventArgs
             {
                 Reason = ConvertReason(e.Reason),
             });
 
-            toastNotif.Failed += (o, e) => notification.Failed?.Invoke(this, new Share.ToastFailedEventArgs() { ErrorCode = e.ErrorCode });
+            toastNotif.Failed += (o, e) => notification.Failed?.Invoke(o, new Share.ToastFailedEventArgs() { ErrorCode = e.ErrorCode });
 
             if (!string.IsNullOrWhiteSpace(notification.Tag))
             {
@@ -270,7 +288,12 @@ namespace ToastNotifications.Win10
             {
                 try
                 {
+#if WIN10
+                    ToastNotificationManager.History.Remove(tag);
+#endif
+#if WIN8
                     _toastNotifier.Hide(_notifications[tag]);
+#endif
                 }
                 catch
                 {

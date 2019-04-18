@@ -72,8 +72,12 @@ namespace ToastNotifications.Win10
 
             using (PropVariant appIdPv = new PropVariant(appId))
             {
-                ShellHelpers.ErrorHelper.VerifySucceeded(newShortcutProperties.SetValue(SystemProperties.System.AppUserModel.ID, appIdPv));
-                ShellHelpers.ErrorHelper.VerifySucceeded(newShortcutProperties.Commit());
+                using (var appPreventPinning = new PropVariant(true))
+                {
+                    ShellHelpers.ErrorHelper.VerifySucceeded(newShortcutProperties.SetValue(SystemProperties.System.AppUserModel.PreventPinning, appPreventPinning));
+                    ShellHelpers.ErrorHelper.VerifySucceeded(newShortcutProperties.SetValue(SystemProperties.System.AppUserModel.ID, appIdPv));
+                    ShellHelpers.ErrorHelper.VerifySucceeded(newShortcutProperties.Commit());
+                }
             }
 
             // Commit the shortcut to disk
@@ -90,7 +94,7 @@ namespace ToastNotifications.Win10
         //
         // Included in this project is a wxs file that be used with the WiX toolkit
         // to make an installer that creates the necessary shortcut. One or the other should be used.
-        private bool Setup(string appId, string appName, string defaultIconFilePath)
+        public bool Setup(string appId, string appName, string defaultIconFilePath)
         {
             string shortcutPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + $"\\Microsoft\\Windows\\Start Menu\\Programs\\{appName}.lnk";
             if (File.Exists(shortcutPath))
